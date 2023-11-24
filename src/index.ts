@@ -1,40 +1,23 @@
-import express, {Express, Request, Response} from 'express';
-import 'dotenv/config'
-import mysql, {Pool} from 'mysql2';
+import express, {Request,Response,Express} from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+// @ts-ignore
+import UserRoute from '../routes/UserRoute.js'
 
-const app: Express = express();
+dotenv.config()
 
-app.use(express.json());
+const app: Express = express()
+const port:string|5000 = process.env.APP_PORT || 5000
 
+app.use(cors())
+app.use(express.json())
+app.get('/', (req:Request, res:Response) => {
+    res.send('Hello World!')
+})
+app.use(UserRoute)
 
-const connection: Pool = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "1111",
-    database: "express",
-});
+app.listen(port, () => {
+    console.log(`Server listening on port ${port}`)
+})
 
-app.post("/users", async (req: Request, res: Response) => {
-    try {
-        const {name, address, country} = req.body;
-        const [{insertId}] = await connection.promise().query(
-            `INSERT INTO users (name, address, country)
-             VALUES (?, ?, ?)`,
-            [name, address, country]
-        );
-        res.status(202).json({
-            message: "User Created",
-        });
-    } catch (err) {
-        res.status(500).json({
-            message: err,
-        });
-    }
-});
-
-
-const PORT: string | 3000 = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+export default app
