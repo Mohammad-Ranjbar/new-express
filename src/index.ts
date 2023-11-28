@@ -2,7 +2,7 @@ import express, {Request,Response,Express} from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 // @ts-ignore
-import UserRoute from '../routes/UserRoute.js'
+import UserRoute from './routes/UserRoute.js'
 
 dotenv.config()
 
