@@ -6,22 +6,24 @@ import {createPost, deletePost, getPostById, getPosts, updatePost} from '../cont
 const prisma: PrismaClient = new PrismaClient();
 const router: Router = express.Router();
 
+//TODO
+// const validateUniqueTitle: ValidationChain = body('title').custom(async (value, {req}) => {
+//     const existingUser = await prisma.posts.findUnique({where: {title: value}});
+//     // @ts-ignore
+//     if (existingUser && existingUser.id !== Number(req.params.id)) {
+//         throw new Error('Title is already in use');
+//     }
+//     return true;
+// });
 
-const validateUniqueTitle: ValidationChain = body('title').custom(async (value, {req}) => {
-    const existingUser = await prisma.posts.findUnique({where: {title: value}});
-
-    // @ts-ignore
-    if (existingUser && existingUser.id !== Number(req.params.id)) {
-        throw new Error('Title is already in use');
-    }
-    return true;
-});
+//TODO
+//add validation for check boolean published
 
 const validateCreateUpdate: ValidationChain[] = [
     body('title').notEmpty().withMessage('Title cannot be empty').trim(),
     body('content').notEmpty().withMessage('Content cannot be empty').trim(),
     body('published').notEmpty().withMessage('Content cannot be empty'),
-    validateUniqueTitle,
+
 ];
 
 const validateIdParam: ValidationChain[] = [

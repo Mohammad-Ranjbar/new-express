@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 // @ts-ignore
 import UserRoute from './routes/UserRoute'
+import PostRoute from './routes/PostRoute'
 
 dotenv.config()
 
@@ -15,6 +16,7 @@ app.get('/', (req:Request, res:Response) => {
     res.send('Hello World!')
 })
 app.use(UserRoute)
+app.use(PostRoute)
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`)
